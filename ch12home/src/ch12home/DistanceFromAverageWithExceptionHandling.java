@@ -3,90 +3,78 @@ import java.util.*;
 public class DistanceFromAverageWithExceptionHandling {
 
 	public static void main(String[] args) {
-		
 		Scanner input = new Scanner(System.in);
-		double[] number;
+		String val;
 		double entry = 0;
-		int size = 0;
 		double total = 0;
 		double average = 0;
 		final int QUIT = 99999;
-		boolean Negative = false;
-		boolean Double = true;
-		boolean Value = false;
-		int x = 0, y;
+		int x = 0;
+		int y;
+		int size= 0;
+		int count= 0;
 
-		try{
-			System.out.print("Enter a value for the array size: ");
-			size = input.nextInt();
+		double[] numbers = new double[5];
+		boolean isValOk = false;
+		boolean success = false;
+		
+		
+		while (!success) {
+
+		try {
+
+			System.out.print("Enter array size: ");
+			val=input.next();
+			size=Integer.parseInt(val);
+			success = true;
+
 		}
 		
-		catch(Exception e){
-			System.out.println("Invalid value");
-			Double = false;
-			input.nextLine();
-		}
-
-		if(size < 0){
-			System.out.print("Negative value. Automatically value of size 5");
-		
-		while(!Negative){
-			size = 5;
-			input.nextLine();
+		catch (NumberFormatException e) {
+			System.out.println("You have entered invalid data");
 			}
+
 		}
 
-		if(Double){
-			number = new double[size];
-			
-		while(!Value){
-			try{
-				System.out.print("Enter a value or enter " + QUIT + " to quit >> ");
-				entry = input.nextDouble();
-				Value = true;
-					}
-			
-		catch(Exception e){
-			Value = false;
-			input.nextLine();
+		try {
+			numbers = new double[size];
+		} 
+		
+		catch (NegativeArraySizeException ex) {
+			System.out.println("Negative size");
 		}
-			}
-		
-		while(entry != QUIT && x < number.length){
-			number[x] = entry;
-			++x;
-		
-		if(x < number.length){
-			try{
-				System.out.print("Enter next value or enter " + QUIT + " to quit >> ");
-				entry = input.nextDouble();
-					}
-			
-		catch(Exception e){
-			--x;
+
+		while(entry != QUIT && x < numbers.length){
+
+			if(x < numbers.length){
+
+				try{
+
+					System.out.print("Enter next numeric value or " +QUIT + " to quit >> ");
+					entry = input.nextDouble();
+					numbers[x] = entry;
+					total += numbers[x];
+					++x;
+
+				}
+
+		catch(InputMismatchException e){
+			System.out.println("Entered array value should be a double");
 			input.nextLine();
 				}
 			}
 		}
-		
-		if(x == 0) {
-			System.out.println("Error, size is 0! ");}
-		
+
+		if(x == 0)
+			System.out.println("Average cannot be computed because no numbers were entered");
+
 		else{
-			for(int a = 0; a < number.length; ++a)
-				total += number[a];
-				average = total / x;
-				System.out.println("You entered " + x + " numbers and average is " + average);
-				
-		for(y = 0; y < x; ++y) {
-			System.out.println(number[y] + " is " + (average - number[y]) + " away from the average");}
+			average = total / x;
+			System.out.println("You entered " + x + " numbers and their average is " + average);
+
+			for(y = 0; y < x; ++y)
+				System.out.println(numbers[y] + " is " + (numbers[y] - average) + " away from the average");
+
+				}
 			}
-		
 		}
-
-	}
-
-}
-
-
-
